@@ -1,13 +1,10 @@
-name: Build
+name: Build DLL
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-
-env:
-  BUILD_CONFIGURATION: Release
 
 jobs:
   build:
@@ -17,14 +14,16 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set up MSBuild
-      uses: microsoft/setup-msbuild@v1.0.2
+    - name: Set up Visual C++ environment
+      uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Build solution
-      run: msbuild mydll.cpp /p:Configuration=$env:BUILD_CONFIGURATION
+    - name: Build DLL
+      run: |
+        cl /LD /Ipath\to\lua\headers mylib.cpp /Femylib.dll
+        dir
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: mylib.dll
-        path: path/to/mylib.dll
+        path: mylib.dll
