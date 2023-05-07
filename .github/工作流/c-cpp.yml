@@ -14,13 +14,13 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
       
-    - name: Set up Lua
+    - name: Set up Visual C++ environment
+      uses: ilammy/msvc-dev-cmd@v1
+      
+      - name: Set up Lua
       uses: leafo/gh-actions-lua@v10
       with:
         luaVersion: "5.4"
-
-    - name: Set up Visual C++ environment
-      uses: ilammy/msvc-dev-cmd@v1
 
     - name: Build DLL
       run: |
