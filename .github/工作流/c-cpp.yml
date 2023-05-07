@@ -1,4 +1,4 @@
-name: Build DLL
+name: c-cpp
 
 on:
   workflow_dispatch:
