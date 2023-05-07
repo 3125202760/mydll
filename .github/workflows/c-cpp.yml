@@ -21,7 +21,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Build solution
-      run: msbuild mydll.sln /p:Configuration=$env:BUILD_CONFIGURATION
+      run: msbuild mydll.cpp /p:Configuration=$env:BUILD_CONFIGURATION
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
