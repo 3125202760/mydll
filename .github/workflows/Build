@@ -1,0 +1,27 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: choco install lua51
+
+    - name: Build
+      run: |
+        git clone https://github.com/jmckaskill/luaffi.git
+        cd luaffi
+        MSBuild.exe luaffi.sln /p:Configuration=Release
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ffi.dll
+        path: luaffi/Release/ffi.dll
