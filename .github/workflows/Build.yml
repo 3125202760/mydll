@@ -15,6 +15,7 @@ jobs:
       run: |
         choco install mingw
         choco install make
+        choco install luarocks
 
     - name: Build
       run: |
