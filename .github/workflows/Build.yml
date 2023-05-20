@@ -1,4 +1,4 @@
-name: Cross-compile FFI
+name: Build
 
 on:
   workflow_dispatch:
