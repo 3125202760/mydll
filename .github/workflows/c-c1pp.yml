@@ -17,6 +17,5 @@ jobs:
 
     - name: Build DLL
       run: |
-        cd mydll
         msbuild mydll.vcxproj /p:Configuration=Release
 
