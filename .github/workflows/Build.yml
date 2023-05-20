@@ -25,6 +25,11 @@ jobs:
         choco install make
         choco install luarocks
 
+    - name: Add cl to PATH
+      run: |
+       echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+
     - name: Build
       run: |
         git clone https://github.com/facebookarchive/luaffifb.git
