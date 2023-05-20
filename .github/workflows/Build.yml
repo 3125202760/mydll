@@ -18,7 +18,6 @@ jobs:
       run: |
        choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
 
-
     - name: Install dependencies
       run: |
         choco install mingw
