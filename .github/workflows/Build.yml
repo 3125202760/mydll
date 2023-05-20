@@ -1,45 +1,33 @@
-name: Build
+name: Cross-compile FFI
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.0.2
-      
-    - name: Install Visual Studio Build Tools
-      run: |
-       choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
-
     - name: Install dependencies
       run: |
-        choco install mingw
-        choco install make
-        choco install luarocks
-        choco install windows-sdk-10-version-2004-all
+        sudo apt-get update
+        sudo apt-get install -y mingw-w64
 
-    - name: Add cl to PATH
+    - name: Install LuaRocks
       run: |
-       echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        sudo apt-get update
+        sudo apt-get install -y luarocks
 
-    - name: Build
+    - name: Cross-compile FFI
       run: |
         git clone https://github.com/facebookarchive/luaffifb.git
         cd luaffifb
-        luarocks make
+        make CC=x86_64-w64-mingw32-gcc
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ffi.dll
-        path: luaffifb/ffi.dll
-        
-
-
+    - name: Copy FFI to project
+      run: |
+        mkdir -p ffi
+        cp luaffifb/ffi.dll ffi/
