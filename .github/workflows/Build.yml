@@ -28,15 +28,28 @@ jobs:
       run: |
        echo "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
+    - name: Find stdint.h
+      run: |
+       $location = Get-ChildItem -Path "C:\Program Files (x86)\Windows Kits\10" -Filter stdint.h -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($location) {
+        echo "Found stdint.h at $($location.FullName)"
+        echo "CFLAGS=-I$($location.Directory)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append} 
+        else 
+        {
+        echo "Could not find stdint.h"
+        }
 
     - name: Build
       run: |
         git clone https://github.com/facebookarchive/luaffifb.git
         cd luaffifb
-        make
+        make CFLAGS="${{ env.CFLAGS }}"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: ffi.dll
         path: luaffifb/ffi.dll
+        
+
+
