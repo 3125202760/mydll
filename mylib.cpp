@@ -1,18 +1,53 @@
-#include <lua.h>
-#include <lauxlib.h>
+#include <Windows.h>
 
-static int add(lua_State *L) {
-    double a = luaL_checknumber(L, 1);
-    double b = luaL_checknumber(L, 2);
-    lua_pushnumber(L, a + b);
-    return 1;
+__declspec(dllexport) void copy_and_paste(const char* str)
+{
+    // 打开剪贴板
+    if (!OpenClipboard(NULL))
+        return;
+
+    // 清空剪贴板
+    EmptyClipboard();
+
+    // 分配内存
+    HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, strlen(str) + 1);
+    if (hMem == NULL)
+    {
+        CloseClipboard();
+        return;
+    }
+
+    // 锁定内存
+    char* pMem = (char*)GlobalLock(hMem);
+    if (pMem == NULL)
+    {
+        GlobalFree(hMem);
+        CloseClipboard();
+        return;
+    }
+
+    // 复制字符串到内存
+    strcpy_s(pMem, strlen(str) + 1, str);
+
+    // 解锁内存
+    GlobalUnlock(hMem);
+
+    // 设置剪贴板数据
+    SetClipboardData(CF_TEXT, hMem);
+
+    // 关闭剪贴板
+    CloseClipboard();
+
+    // 模拟Ctrl+V
+    keybd_event(VK_CONTROL, 0, 0, 0);
+    keybd_event('V', 0, 0, 0);
+    keybd_event('V', 0, KEYEVENTF_KEYUP, 0);
+    keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
 }
 
-int __declspec(dllexport) luaopen_mylib(lua_State *L) {
-    static const struct luaL_Reg mylib[] = {
-        {"add", add},
-        {NULL, NULL}
-    };
-    luaL_newlib(L, mylib);
-    return 1;
+__declspec(dllexport) void press_enter()
+{
+    // 模拟回车键
+    keybd_event(VK_RETURN, 0, 0, 0);
+    keybd_event(VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
 }
