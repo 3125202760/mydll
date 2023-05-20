@@ -23,6 +23,7 @@ jobs:
         choco install mingw
         choco install make
         choco install luarocks
+        choco install windows-sdk-10-version-2004-all
 
     - name: Add cl to PATH
       run: |
