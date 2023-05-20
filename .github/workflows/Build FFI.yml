@@ -20,7 +20,7 @@ jobs:
       run: |
         git clone https://github.com/facebookarchive/luaffifb.git
         cd luaffifb
-        make CC=x86_64-w64-mingw32-gcc
+        luarocks make
 
     - name: Copy FFI to project
       run: |
