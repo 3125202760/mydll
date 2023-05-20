@@ -1,21 +1,28 @@
-name: Build DLL
+name: Build
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Install MSVC
-      uses: microsoft/setup-msbuild@v1.0.2
-
-    - name: Build DLL
+    - name: Install dependencies
       run: |
-        msbuild mydll.vcxproj /p:Configuration=Release
+        choco install make
+        choco install lua51
 
+    - name: Build
+      run: |
+        git clone https://github.com/facebookarchive/luaffifb.git
+        cd luaffifb
+        make
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ffi.dll
+        path: luaffifb/ffi.dll
