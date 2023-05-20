@@ -11,17 +11,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: choco install lua51
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Build
       run: |
-        git clone https://github.com/jmckaskill/luaffi.git
-        cd luaffi
-        MSBuild.exe luaffi.sln /p:Configuration=Release
+        git clone https://github.com/facebookarchive/luaffifb.git
+        cd luaffifb
+        msbuild luaffifb.sln /p:Configuration=Release
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: ffi.dll
-        path: luaffi/Release/ffi.dll
+        path: luaffifb/Release/ffi.dll
