@@ -1,4 +1,5 @@
 #include <Windows.h>
+#pragma comment(lib, "User32.lib")
 
 __declspec(dllexport) void copy_and_paste(const char* str)
 {
