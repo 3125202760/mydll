@@ -21,11 +21,11 @@ jobs:
 
     - name: Build DLL
       run: |
-        cl /LD /I.lua/include mylib.cpp /Femylib.dll
+        cl /LD /I.lua/include add.cpp /Femylib.dll
         dir
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: mylib.dll
-        path: mylib.dll
+        name: add.dll
+        path: add.dll
