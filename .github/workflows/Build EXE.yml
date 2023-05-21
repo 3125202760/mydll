@@ -14,7 +14,7 @@ jobs:
         echo "C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64" >> $GITHUB_PATH
     - name: Build EXE
       run: |
-        cl /EHsc /Feadd.exe add.cpp
+        cl /EHsc /Feadd.exe addc.cpp
     - name: Upload EXE
       uses: actions/upload-artifact@v2
       with:
