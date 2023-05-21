@@ -18,5 +18,5 @@ jobs:
     - name: Upload EXE
       uses: actions/upload-artifact@v2
       with:
-        name: add.exe
-        path: add.exe
+        name: addc.exe
+        path: addc.exe
