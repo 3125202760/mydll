@@ -1,0 +1,27 @@
+name: Build and upload DLL
+
+on:
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build DLL
+      run: msbuild mydll.sln /p:Configuration=$env:BUILD_TYPE
+
+    - name: Upload DLL
+      uses: actions/upload-artifact@v2
+      with:
+        name: add.dll
+        path: path/to/mydll.dll
