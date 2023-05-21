@@ -1,4 +1,4 @@
-name: Build DLL
+name: Build add_DLL
 
 on:
   workflow_dispatch:
