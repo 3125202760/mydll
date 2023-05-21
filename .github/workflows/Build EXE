@@ -1,0 +1,18 @@
+name: Build EXE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build EXE
+      run: |
+        cl /EHsc /Feadd.exe add.cpp
+    - name: Upload EXE
+      uses: actions/upload-artifact@v2
+      with:
+        name: add.exe
+        path: add.exe
