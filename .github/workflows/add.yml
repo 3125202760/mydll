@@ -12,3 +12,8 @@ jobs:
       run: sudo apt-get install -y g++ lua5.1 liblua5.1-dev
     - name: Build DLL
       run: g++ -shared -fPIC -o add.dll add.cpp -I/usr/include/lua5.1 -llua5.1
+    - name: Upload DLL
+      uses: actions/upload-artifact@v2
+      with:
+        name: add.dll
+        path: add.dll
